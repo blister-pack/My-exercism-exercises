@@ -1,34 +1,21 @@
 """Functions for organizing and calculating student exam scores."""
-
-
 def round_scores(student_scores):
     """Round all provided student scores.
 
     :param student_scores: list - float or int of student exam scores.
     :return: list - student scores *rounded* to nearest integer value.
     """
-    rounded_scores = []
-    for score in student_scores:
-        rounded_scores.append(round(score))
+    rounded_scores = [round(score) for score in student_scores]
     return rounded_scores
-
-
 def count_failed_students(student_scores):
     """Count the number of failing students out of the group provided.
 
     :param student_scores: list - containing int student scores.
     :return: int - count of student scores at or below 40.
     """
-    scores_rounded = round_scores(student_scores)
-    n = 0
-    for score in scores_rounded:
-        if score <= 40:
-            n += 1
-            continue
-        else:
-            continue
-    return n
-
+    scores_rounded = (round_scores(student_scores))
+    scores_rounded_below_40 = [scores_rounded for score in scores_rounded if score <= 40]
+    return len(scores_rounded_below_40)
 
 def above_threshold(student_scores, threshold):
     """Determine how many of the provided student scores were 'the best' based on the provided threshold.
@@ -45,7 +32,6 @@ def above_threshold(student_scores, threshold):
 
     return high_scores
 
-
 def letter_grades(highest):
     """Create a list of grade thresholds based on the provided highest grade.
 
@@ -59,7 +45,7 @@ def letter_grades(highest):
             71 <= "B" <= 85
             86 <= "A" <= 100
     """
-    thresholds = [41, ]
+    thresholds = [41,]
     range_rep = round((highest - 41) / 4)
     for grade in range(1, 4):
         added_threshold = 41 + grade * range_rep
@@ -77,12 +63,11 @@ def student_ranking(student_scores, student_names):
     :return: list - of strings in format ["<rank>. <student name>: <score>"].
     """
     highscore = []
-    for a in range(len(student_scores)):
-        highscore.append(f'{a + 1}. {student_names[a]}: {student_scores[a]}')
+    for pos, name in enumerate(student_names):
+        highscore.append(f'{pos + 1}. {name}: {student_scores[pos]}')
     return highscore
 
-
-def perfect_score(student_info):
+def perfect_score(student_info):   #  kind of messy
     """Create a list that contains the name and grade of the first student to make a perfect score on the exam.
 
     :param student_info: list - of [<student name>, <score>] lists.
@@ -90,7 +75,7 @@ def perfect_score(student_info):
     """
     num_students = len(student_info)
     n = 0
-    if student_info == []:
+    if not student_info:
         return []
     else:
         for student in student_info:
@@ -100,5 +85,3 @@ def perfect_score(student_info):
                 return [name, grade]
             elif n == num_students:
                 return []
-            else:
-                continue
