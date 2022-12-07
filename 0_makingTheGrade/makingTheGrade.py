@@ -15,9 +15,10 @@ def count_failed_students(student_scores):
     :param student_scores: list - containing int student scores.
     :return: int - count of student scores at or below 40.
     """
-    scores_rounded = (round_scores(student_scores))
-    scores_rounded_below_40 = [score for score in scores_rounded if score <= 40]
-    return len(scores_rounded_below_40)
+    #  what this function does is it turns the members of the list that are under 40 into new members of
+    #  value 1 in a new list and the sum function puts it all together, basically counting the amount of
+    #  students that failed
+    return sum(1 for score in round_scores(student_scores) if score <= 40)
 
 
 def above_threshold(student_scores, threshold):
