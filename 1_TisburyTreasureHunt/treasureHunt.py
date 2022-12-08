@@ -32,7 +32,7 @@ def convert_coordinate(coordinate):
     :param coordinate: str - a string map coordinate
     :return: tuple - the string coordinate split into its individual components.
     """
-    return (coordinate[0], coordinate[1])
+    return coordinate[0], coordinate[1]
 
 
 print(convert_coordinate('3D'))
