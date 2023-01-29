@@ -2,14 +2,18 @@
 
 #  sets don't keep duplicate entries, keep that in mind
 
-from sets_categories_data import ALCOHOLS
-from sets_categories_data import (VEGAN,
-                                  VEGETARIAN,
-                                  KETO,
-                                  PALEO,
-                                  OMNIVORE,
-                                  ALCOHOLS,
-                                  SPECIAL_INGREDIENTS)
+
+from sets_categories_data import (
+    VEGAN,
+    VEGETARIAN,
+    KETO,
+    PALEO,
+    OMNIVORE,
+    ALCOHOLS,
+    SPECIAL_INGREDIENTS,
+)
+
+import sets_categories_data
 
 
 def clean_ingredients(dish_name, dish_ingredients):
@@ -26,9 +30,6 @@ def clean_ingredients(dish_name, dish_ingredients):
     return (dish_name, set(dish_ingredients))
 
 
-
-
-
 def check_drinks(drink_name, drink_ingredients):
     """Append "Cocktail" (alcohol)  or "Mocktail" (no alcohol) to `drink_name`, based on `drink_ingredients`.
 
@@ -40,20 +41,31 @@ def check_drinks(drink_name, drink_ingredients):
     name followed by "Cocktail" (includes alcohol).
 
     """
-    assistant_set = set(drink_ingredients)  #  a list isn't hashable, so I have to turn it into a set
+    assistant_set = set(
+        drink_ingredients
+    )  #  a list isn't hashable, so I have to turn it into a set
 
     if assistant_set.isdisjoint(ALCOHOLS):
-        return f'{drink_name} Mocktail'
+        return f"{drink_name} Mocktail"
     else:
-        return f'{drink_name} Cocktail'
+        return f"{drink_name} Cocktail"
 
 
-print(check_drinks('Amaretto Sour', ['almond liqueur', 'bourbon', 'cherries',
-                                      'egg white', 'lemon juice', 'lemon twist',
-                                      'simple syrup'
-                                     ]
-                   )
-      )
+print(
+    check_drinks(
+        "Amaretto Sour",
+        [
+            "almond liqueur",
+            "bourbon",
+            "cherries",
+            "egg white",
+            "lemon juice",
+            "lemon twist",
+            "simple syrup",
+        ],
+    )
+)
+
 
 def categorize_dish(dish_name, dish_ingredients):
     """Categorize `dish_name` based on `dish_ingredients`.
@@ -68,7 +80,36 @@ def categorize_dish(dish_name, dish_ingredients):
 
     """
 
-    pass
+    # dicts work as key --> value
+    diet_category = [VEGAN, VEGETARIAN, PALEO, KETO, OMNIVORE]
+    diet_category_names = ["VEGAN", "VEGETARIAN", "PALEO", "KETO", "OMNIVORE"]
+
+    # apparently a set is immediatly unpacked when it's used and not its name
+    for index, diets in enumerate(diet_category):
+        if dish_ingredients.issubset(diets):
+            return f"{str(dish_name)}: {diet_category_names[index]}"
+
+
+print(
+    categorize_dish(
+        "Sticky Lemon Tofu",
+        {
+            "tofu",
+            "soy sauce",
+            "salt",
+            "black pepper",
+            "cornstarch",
+            "vegetable oil",
+            "garlic",
+            "ginger",
+            "water",
+            "vegetable stock",
+            "lemon juice",
+            "lemon zest",
+            "sugar",
+        },
+    )
+)
 
 
 def tag_special_ingredients(dish):
@@ -81,8 +122,28 @@ def tag_special_ingredients(dish):
     For the purposes of this exercise, all allergens or special ingredients that need to be tracked are in the
     SPECIAL_INGREDIENTS constant imported from `sets_categories_data.py`.
     """
+    (dish_name, dish_ingredients) = dish
+    problem_ingredients = (set(dish_ingredients)).intersection(SPECIAL_INGREDIENTS)
+    return (dish_name, problem_ingredients)
 
-    pass
+
+print(
+    tag_special_ingredients(
+        (
+            "Ginger Glazed Tofu Cutlets",
+            [
+                "tofu",
+                "soy sauce",
+                "ginger",
+                "corn starch",
+                "garlic",
+                "brown sugar",
+                "sesame seeds",
+                "lemon juice",
+            ],
+        )
+    )
+)
 
 
 def compile_ingredients(dishes):
@@ -94,7 +155,48 @@ def compile_ingredients(dishes):
     This function should return a `set` of all ingredients from all listed dishes.
     """
 
-    pass
+    for ings in dishes:
+        dishes[0] = dishes[0].union(ings)  #  the sets aren't joining
+    return dishes[0]
+
+
+#  don't forget to update this in exercism
+
+
+print(
+    compile_ingredients(
+        dishes=[
+            {
+                "tofu",
+                "soy sauce",
+                "ginger",
+                "corn starch",
+                "garlic",
+                "brown sugar",
+                "sesame seeds",
+                "lemon juice",
+            },
+            {
+                "pork tenderloin",
+                "arugula",
+                "pears",
+                "blue cheese",
+                "pine nuts",
+                "balsamic vinegar",
+                "onions",
+                "black pepper",
+            },
+            {
+                "honeydew",
+                "coconut water",
+                "mint leaves",
+                "lime juice",
+                "salt",
+                "english cucumber",
+            },
+        ]
+    )
+)
 
 
 def separate_appetizers(dishes, appetizers):
@@ -108,7 +210,33 @@ def separate_appetizers(dishes, appetizers):
     Either list could contain duplicates and may require de-duping.
     """
 
-    pass
+    no_appis = set(dishes) - set(appetizers)
+    return list(no_appis)
+
+
+print(
+    separate_appetizers(
+        [
+            "Avocado Deviled Eggs",
+            "Flank Steak with Chimichurri and Asparagus",
+            "Kingfish Lettuce Cups",
+            "Grilled Flank Steak with Caesar Salad",
+            "Vegetarian Khoresh Bademjan",
+            "Avocado Deviled Eggs",
+            "Barley Risotto",
+            "Kingfish Lettuce Cups",
+        ],
+        [
+            "Kingfish Lettuce Cups",
+            "Avocado Deviled Eggs",
+            "Satay Steak Skewers",
+            "Dahi Puri with Black Chickpeas",
+            "Avocado Deviled Eggs",
+            "Asparagus Puffs",
+            "Asparagus Puffs",
+        ],
+    )
+)
 
 
 def singleton_ingredients(dishes, intersection):
@@ -126,4 +254,16 @@ def singleton_ingredients(dishes, intersection):
     The function should return a `set` of ingredients that only appear in a single dish.
     """
 
-    pass
+    #  this just turns the list of dishes into one big set of ingredients
+    all_ings = set()
+    for ings in dishes:
+        all_ings = all_ings.union(ings)
+
+    return all_ings.difference(intersection)
+
+
+print(
+    singleton_ingredients(
+        sets_categories_data.example_dishes, sets_categories_data.EXAMPLE_INTERSECTION
+    )
+)
