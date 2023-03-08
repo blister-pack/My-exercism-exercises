@@ -1,28 +1,28 @@
-from ast import Mod
-
 from random import randint
 
 
 class Character:
     def __init__(self):
-        self.strength = randint(3, 18)
-        self.dexterity = randint(3, 18)
-        self.constitution = randint(3, 18)
-        self.intelligence = randint(3, 18)
-        self.wisdom = randint(3, 18)
-        self.charisma = randint(3, 18)
+        self.strength = self.ability()
+        self.dexterity = self.ability()
+        self.constitution = self.ability()
+        self.intelligence = self.ability()
+        self.wisdom = self.ability()
+        self.charisma = self.ability()
         self.hitpoints = 10 + modifier(self.constitution)
 
     def ability(self):
-        return self.wisdom
+        dice_throws = []
+        for dice in range(1, 5):
+            throw = randint(1, 6)
+            dice_throws.append(throw)
+        dice_throws.sort()
+        dice_throws.remove(dice_throws[0])
+        return sum(dice_throws)
 
 
 def modifier(con):
-    hp_modifier = (con - 10) / 2
-    if (abs(hp_modifier) - 0.5) == abs(int(hp_modifier)):
-        return round(hp_modifier - 0.1)
-    else:
-        return round(hp_modifier)
+    return (con - 10) // 2
 
 
 # ---------------------------------------------------------
@@ -31,3 +31,4 @@ print(char1.constitution)
 print(char1.hitpoints)
 # modifier(5)
 print(modifier(5))
+print(char1.ability())
