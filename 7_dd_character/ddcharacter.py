@@ -16,8 +16,12 @@ class Character:
         self.hitpoints = 10 + modifier(self.constitution)
 
     def ability(self):
-        dice_throws = [randint(1, 6) for dice in range(4)]
-        dice_throws.sort()
+        """we use _ because we don't care about the name; 
+        we use () instead of [] to make it a generator expression, 
+        which saves memory by only creating requested values instead
+        of the entire list all at once
+        """
+        dice_throws = sorted(randint(1, 6) for _ in range(4)) 
         dice_throws.remove(dice_throws[0])
         return sum(dice_throws)
 
