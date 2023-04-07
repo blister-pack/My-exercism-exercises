@@ -49,6 +49,7 @@ class Matrix:
                 except Exception:
                     self.columns[index] = self.columns[index] + num
 
+
     def row(self, index):
         #  this method returns a row with the selected index
         return self.rows[index - 1]
