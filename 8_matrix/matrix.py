@@ -6,25 +6,6 @@ class Matrix:
         # gotta make it work for matrixes with single rows or columns
         # think I wrote the code wrong because I assumed the last line also had a /n
         # gotta make this work in a different way
-        """
-        new_row = ""
-        index = -1
-        for i in matrix_string:
-            if i == "\n":
-                self.rows.append(new_row)
-                new_row = ""
-                index = -1
-            else:
-                new_row = new_row + i
-                if i != " ":
-                    index += 1
-                    try:
-                        self.columns[index] = self.columns[index] + (
-                            " " + i
-                        )  #  not sure why this isn't working as expected
-                    except:
-                        self.columns.append(i)
-        """
 
         # TODO make it write rows
         # TODO make it write columns
@@ -43,20 +24,32 @@ class Matrix:
                 new_row = new_row + i
 
         for row in self.rows:
-            for index, num in enumerate(row):
+            a = row.split()  # should have used this earlier - live and learn
+            index = -1
+            for num in a:
+                index += 1
                 try:
-                    self.columns[index].append(num)
+                    self.columns[index] = self.columns[index] + f" {num}"
                 except Exception:
-                    self.columns[index] = self.columns[index] + num
+                    self.columns.append(num)
 
+    #  I need these methods to return column and rows in a [] list format
 
     def row(self, index):
         #  this method returns a row with the selected index
-        return self.rows[index - 1]
+        row_list = []
+        for a in self.rows[index - 1].split():
+            if a != " ":
+                row_list.append(int(a))
+        return row_list
 
     def column(self, index):
         #  this method returns a column with the selected index
-        return self.columns[index - 1]
+        column_list = []
+        for a in self.columns[index - 1].split():
+            if a != " ":
+                column_list.append(int(a))
+        return column_list
 
 
 # -----------------------------------------------------------------------------------------
@@ -65,6 +58,13 @@ matrixz = Matrix("1")
 matrixa = Matrix("2 3 4")
 matrixb = Matrix("5\n6\n7")
 
+
+matrixF = Matrix(
+    "1 2\n10 20"
+)  #  this list causes problems because it has values with multiple digits
+
+
 print(matrix.rows)
 print(matrix.columns)
 print(matrix.row(2))
+print(matrixF.row(2))
