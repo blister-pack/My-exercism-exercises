@@ -1,6 +1,3 @@
-from hmac import new
-
-
 class Matrix:
     def __init__(self, matrix_string):
         self.rows = []
@@ -13,47 +10,18 @@ class Matrix:
         # TODO make it write rows
         # TODO make it write columns
         # TODO make it detect the end of the string and stop
-        """ 
-        matrix_length = len(matrix_string)
-        new_row = ""
-        for index_in_row, i in enumerate(matrix_string, start=1):
-            
-            if i == "\n":
-                self.rows.append(new_row)
-                new_row = ""
-            elif matrix_length == index_in_row:
-                new_row = new_row + i
-                self.rows.append(new_row)
-            else:
-                new_row = new_row + i
-        """
 
-        num_rows = matrix_string.count("\n") + 1
-        split_rows = matrix_string.split()
-        num_elements_per_row = len(split_rows) / num_rows
-        #  need a counter that would make a new row every tine the row has
-        #  the right number of elements
-        new_row = ""
-        end_of_row = 0
-        for num in split_rows:
-            end_of_row += 1
-            if end_of_row == num_elements_per_row:
-                new_row += f"{num} "
-                self.rows.append(new_row.strip())
-                new_row = ""
-                end_of_row = 0
-            else:
-                new_row += f"{num} "
+        rows = matrix_string.split("\n")
+        for i in rows:
+            self.rows.append(i)
 
-        for row in self.rows:
-            a = row.split()  # should have used this earlier - live and learn
-            index = -1
-            for num in a:
-                index += 1
-                try:
-                    self.columns[index] = self.columns[index] + f" {num}"
-                except Exception:
-                    self.columns.append(num)
+        for index, a in enumerate(rows):
+            column_maker = a.split(" ")
+            if index > 0:
+                for col_head_num, col in enumerate(column_maker):
+                    self.columns[col_head_num] += f" {col}"
+            else:
+                self.columns += column_maker
 
     #  I need these methods to return column and rows in a [] list format
 
