@@ -1,6 +1,3 @@
-from re import split
-
-
 class Matrix:
     def __init__(self, matrix_string):
         self.rows = []
