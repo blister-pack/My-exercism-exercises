@@ -1,3 +1,6 @@
+from re import split
+
+
 class Matrix:
     def __init__(self, matrix_string):
         self.rows = []
@@ -13,33 +16,34 @@ class Matrix:
 
         rows = matrix_string.split("\n")
         for i in rows:
-            self.rows.append(i)
+            split_row = i.split(" ")
+            make_int = list(map(int, split_row))
+            self.rows.append(make_int)
 
-        for index, a in enumerate(rows):
-            column_maker = a.split(" ")
-            if index > 0:
-                for col_head_num, col in enumerate(column_maker):
-                    self.columns[col_head_num] += f" {col}"
-            else:
-                self.columns += column_maker
+        def convert_into_list_of_lists(l):
+            aux = []
+            for member in l:
+                aux.append([member])
+            return aux
+
+        self.columns.append(
+            self.rows[0]
+        )  #  this lines gives the column heads from the rows
+        self.columns = convert_into_list_of_lists(self.columns[0])
+
+        for index in range(1, len(self.rows)):
+            for ind, colmn_number in enumerate(self.rows[index]):
+                self.columns[ind].append(colmn_number)
 
     #  I need these methods to return column and rows in a [] list format
 
     def row(self, index):
         #  this method returns a row with the selected index
-        row_list = []
-        for a in self.rows[index - 1].split():
-            if a != " ":
-                row_list.append(int(a))
-        return row_list
+        return self.rows[index - 1]
 
     def column(self, index):
         #  this method returns a column with the selected index
-        column_list = []
-        for a in self.columns[index - 1].split():
-            if a != " ":
-                column_list.append(int(a))
-        return column_list
+        return self.columns[index - 1]
 
 
 # -----------------------------------------------------------------------------------------
