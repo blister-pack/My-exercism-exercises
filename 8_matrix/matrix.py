@@ -16,21 +16,11 @@ class Matrix:
             split_row = i.split(" ")
             make_int = list(map(int, split_row))
             self.rows.append(make_int)
-
-        def convert_into_list_of_lists(l):
-            aux = []
-            for member in l:
-                aux.append([member])
-            return aux
-
-        self.columns.append(
-            self.rows[0]
-        )  #  this lines gives the column heads from the rows
-        self.columns = convert_into_list_of_lists(self.columns[0])
-
-        for index in range(1, len(self.rows)):
-            for ind, colmn_number in enumerate(self.rows[index]):
-                self.columns[ind].append(colmn_number)
+            for col_i, col in enumerate(make_int):
+                try:
+                    self.columns[col_i].append(col)
+                except:
+                    self.columns.append([col])
 
     #  I need these methods to return column and rows in a [] list format
 
