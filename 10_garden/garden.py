@@ -4,6 +4,8 @@ class Garden:
         pass
 
     def plants(self, student_name):
+        # should take student name and return a list of
+        # plant names belonging to that student
         pass
 
 
