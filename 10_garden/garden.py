@@ -20,7 +20,7 @@ class Garden:
         self, diagram, students=student_list
     ):  #  why does this accept studend_list
         #  and not Garden.student_list?????
-        self.students = students
+        self.students = sorted(students)
         rows = diagram.split("\n")
         self.row1 = rows[0]
         self.row2 = rows[1]
@@ -33,7 +33,7 @@ class Garden:
             plant_list_by_student.append(self.row1[i : i + 2])
             plant_list_by_student[index] += self.row2[i : i + 2]
 
-        student_index = index(student_name)
+        student_index = self.students.index(student_name)
         plants_of_student = plant_list_by_student[student_index]
         #-----------------------------------
         # now we need to get the plant names
